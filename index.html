@@ -3,93 +3,148 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Indi Bank Customer Dashboard </title>
+<title>Santander – Banking Data Overview (Login)</title>
 <style>
-  :root{ --bg:#f6f8fb; --ink:#0c1a2a; --muted:#5b6b7b; --primary:#0A7F5A; --accent:#0b3a97; --card:#ffffff; --radius:12px; --shadow:0 10px 28px rgba(20,40,80,.14) }
+  :root{ --bg:#f6f8fb; --ink:#0c1a2a; --muted:#5b6b7b; --primary:#EC0000; --accent:#111111; --card:#ffffff; --radius:16px; --shadow:0 10px 28px rgba(20,40,80,.14) }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-  header{background: linear-gradient(90deg, var(--primary), #11926a 40%, #15a679); color:#fff; padding:12px 18px; display:flex; align-items:center; gap:12px; box-shadow: 0 2px 10px rgba(0,0,0,.08)}
-  header h1{font-size:16px;margin:0;font-weight:700;letter-spacing:.3px}
-  .wrap{max-width:1180px;margin:24px auto;padding:0 16px}
-  .uploader{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow);display:grid;gap:12px}
+  .hidden{display:none !important}
+  header{background:#fff;border-bottom:1px solid #e7ecf5;padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .word{font-weight:800;color:#111;font-size:18px;letter-spacing:.2px}
+  .hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+  .hdr-right .mail{font-size:12px;color:#5b6b7b}
+  .hero{background:linear-gradient(90deg,var(--primary),#b90000);color:#fff;padding:34px 40px}
+  .hero h1{margin:0;font-size:24px}
+  .sub{font-size:14px;font-weight:300;margin-top:6px;opacity:.95}
+  .wrap{max-width:1200px;margin:20px auto;padding:0 16px}
+  .card{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
   .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .drop{border:2px dashed #c9d3e1;border-radius:10px;background:#f8fafc;color:#42516a;padding:10px 12px;flex:1;min-width:260px}
+  .drop{border:2px dashed #e0e6f0;border-radius:12px;background:#fafbfe;color:#42516a;padding:12px 14px;flex:1;min-width:260px}
   input[type=file]{display:block}
-  button{background:var(--primary);color:#fff;padding:10px 18px;border:none;border-radius:8px;font-size:14px;cursor:pointer;box-shadow:0 6px 16px rgba(10,127,90,.24)}
+  button{background:var(--primary);color:#fff;padding:10px 16px;border:none;border-radius:10px;font-size:14px;cursor:pointer;box-shadow:0 6px 16px rgba(236,0,0,.24)}
   button.secondary{background:#e6eef9;color:#0b3a97}
   .toolbar{display:grid;grid-template-columns: 1.2fr .9fr .9fr auto auto; gap:10px; align-items:end; background:var(--card); padding:14px; border-radius:var(--radius); box-shadow:var(--shadow); margin-top:16px}
   .toolbar label{font-size:12px;color:#42516a;display:block;margin-bottom:4px}
   .toolbar input[type=text], .toolbar input[type=date]{width:100%;padding:10px;border:1px solid #d9e1ee;border-radius:8px}
-  .kpis{display:flex;gap:14px;margin:16px 0}
-  .kpi{background:var(--card);padding:14px 16px;border-radius:10px;box-shadow:var(--shadow);min-width:160px}
-  .kpi .v{font-weight:800;font-size:20px;color:#0b3a97}
+  .kpis{display:flex;gap:14px;margin:16px 0;flex-wrap:wrap}
+  .kpi{background:var(--card);padding:14px 16px;border-radius:12px;box-shadow:var(--shadow);min-width:160px}
+  .kpi .v{font-weight:800;font-size:20px;color:var(--primary)}
   table{width:100%;border-collapse:collapse;background:var(--card);box-shadow:var(--shadow);border-radius:12px;overflow:hidden}
-  thead th{background:#eef3fa;color:#5b6b7b;padding:10px 12px;text-align:left;font-size:13px;position:sticky;top:0}
+  thead th{background:#ffe8e8;color:#5b6b7b;padding:10px 12px;text-align:left;font-size:13px;position:sticky;top:0}
   td{padding:10px 12px;border-top:1px solid #eef2f7;font-size:14px}
-  .footer{margin:22px 0;color:#95a0ad;font-size:12px;text-align:center}
-  .badge{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef3fa;color:#2c3f57;border:1px solid #dfe7f1;font-size:12px}
-  .linklike{background:#eef3fa;color:#0b3a97;border:1px solid #dfe7f1}
+  .meta{margin:10px 2px;display:none}
+  .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff1f1;color:#7a0013;border:1px solid #ffd6d6;font-size:12px}
+  .pill{background:#eef3fa;color:#0b3a97;border:1px solid #dfe7f1}
+  .login-wrap{max-width:420px;margin:26px auto}
+  .login-wrap input{width:100%;padding:12px;border-radius:10px;border:1px solid #d9e1ee;margin-top:12px}
 </style>
 </head>
 <body>
-  <header><h1>Indi Bank Customer Dashboard</h1></header>
-  <div class="wrap">
+  <header>
+    <div class="brand" aria-label="Demo brand">
+      <!-- Inline abstract demo logo (not Santander mark) -->
+      <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EC0000"/><stop offset="1" stop-color="#b90000"/></linearGradient></defs>
+        <ellipse cx="32" cy="50" rx="18" ry="6" fill="#f2d3d3"/>
+        <path d="M32 8c4 8-2 11 2 18 3 5 10 7 8 15-2 8-10 9-14 9s-12-4-12-12c0-9 8-10 10-18 1-5-1-8 6-12z" fill="url(#g1)"/>
+      </svg>
+      <span class="word">Santander</span>
+    </div>
+    <span id="hdrRight" class="hdr-right hidden">
+      <span id="logoutLink" style="font-size:14px;cursor:pointer" onclick="logout()">Logout</span>
+      <span class="mail" id="userEmail">Anant.2.Singh@example.com</span>
+    </span>
+  </header>
 
-    <!-- Step 1: Upload -->
-    <section class="uploader" id="uploader">
-      <div class="row">
-        <div class="drop">
-          <div><b>Upload JSON or CSV</b></div>
-          <input type="file" id="fileInput" accept=".json,.csv" />
-        </div>
+  <!-- LOGIN SECTION -->
+  <div id="loginSection" class="wrap">
+    <div class="card login-wrap">
+      <h2 style="margin:0 0 6px 0">Sign in</h2>
+      <p style="margin:0;color:#5b6b7b;font-size:13px">Enter your Customer ID and password to continue.</p>
+      <input id="cid" placeholder="Customer ID" />
+      <input id="pwd" type="password" placeholder="Password" onkeydown="if(event.key==='Enter') login()" />
+      <button style="width:100%;margin-top:12px" onclick="login()">Continue</button>
+      <p id="err" style="color:#D22D2D;font-size:14px;margin:8px 0 0 0"></p>
+    </div>
+  </div>
+
+  <!-- APP (hidden until login) -->
+  <div id="app" class="hidden">
+    <div class="hero">
+      <h1 id="heroTitle">Welcome, Anant Singh</h1>
+      <div class="sub">Banking Data Overview – Upload JSON/CSV → Filter → KPIs & Recent Activity</div>
+    </div>
+
+    <div class="wrap">
+      <!-- Step 1: Upload -->
+      <section class="card" id="uploader">
         <div class="row">
-          <button id="processBtn" disabled>Process</button>
-          <button id="demoBtn" class="secondary" title="Load sample data">Load demo data</button>
+          <div class="drop">
+            <div><b>Select JSON or CSV</b></div>
+            <input type="file" id="fileInput" accept=".json,.csv" />
+          </div>
+          <div class="row">
+            <button id="processBtn" disabled>Process</button>
+            <button id="demoBtn" class="secondary" title="Load sample data">Load sample</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Filters / Tools -->
+      <div class="toolbar" style="display:none" id="filters">
+        <div>
+          <label for="q">Search (Customer ID or Name)</label>
+          <input id="q" type="text" placeholder="e.g., 345345 or Anant Singh" />
+        </div>
+        <div>
+          <label for="d1">From date</label>
+          <input id="d1" type="date" />
+        </div>
+        <div>
+          <label for="d2">To date</label>
+          <input id="d2" type="date" />
+        </div>
+        <div>
+          <button id="applyBtn">Apply filters</button>
+        </div>
+        <div>
+          <button id="clearBtn" class="secondary">Clear</button>
         </div>
       </div>
-    </section>
 
-    <!-- Step 2: Dashboard -->
-    <div class="toolbar" style="display:none" id="filters">
-      <div>
-        <label for="q">Search (Customer ID or Name)</label>
-        <input id="q" type="text" placeholder="e.g., 345345 or Anant Singh" />
+      <!-- KPIs -->
+      <div class="kpis" id="kpiRow" style="display:none">
+        <div class="kpi"><div class="v" id="kTxn">0</div>Transactions</div>
+        <div class="kpi"><div class="v" id="kMer">0</div>Merchants</div>
+        <div class="kpi"><div class="v" id="kAmt">€0</div>Total Amount</div>
+        <div class="kpi"><div class="v" id="kUsers">0</div>Customers</div>
       </div>
-      <div>
-        <label for="d1">From date</label>
-        <input id="d1" type="date" />
-      </div>
-      <div>
-        <label for="d2">To date</label>
-        <input id="d2" type="date" />
-      </div>
-      <div>
-        <button id="applyBtn">Apply filters</button>
-      </div>
-      <div>
-        <button id="clearBtn" class="secondary">Clear</button>
-      </div>
+
+      <!-- File info -->
+      <div class="meta" id="metaRow"><span id="fileName" class="badge">No file</span> <span id="rowsInfo" class="badge">0 rows</span> <button id="changeBtn" class="badge pill">Change file</button></div>
+
+      <!-- Table -->
+      <table id="tbl" style="display:none"><thead id="thead"></thead><tbody id="tbody"></tbody></table>
     </div>
-
-    <div class="kpis" id="kpiRow" style="display:none">
-      <div class="kpi"><div class="v" id="kTxn">0</div>Transactions</div>
-      <div class="kpi"><div class="v" id="kMer">0</div>Merchants</div>
-      <div class="kpi"><div class="v" id="kAmt">€0</div>Total Amount</div>
-      <div class="kpi"><div class="v" id="kUsers">0</div>Customers</div>
-    </div>
-
-    <div style="margin:10px 2px;display:none" id="metaRow">
-      <span id="fileName" class="badge">No file</span>
-      <span id="rowsInfo" class="badge">0 rows</span>
-      <button id="changeBtn" class="badge linklike">Change file</button>
-    </div>
-
-    <table id="tbl" style="display:none"><thead id="thead"></thead><tbody id="tbody"></tbody></table>
-
-    <div class="footer">© 2026 Indi Bank</div>
   </div>
 
 <script>
+// ---------- Login logic (no on-page hints) ----------
+function login(){
+  const cid = document.getElementById('cid').value.trim();
+  const pw  = document.getElementById('pwd').value.trim();
+  const err = document.getElementById('err');
+  err.textContent='';
+  if(cid !== '345345'){ err.textContent='Invalid Customer ID'; return; }
+  if(pw!=='Pass@223' && pw!=='Pass@123'){ err.textContent='Invalid password'; return; }
+  // success
+  document.getElementById('loginSection').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  const hdr = document.getElementById('hdrRight'); if(hdr) hdr.classList.remove('hidden');
+}
+function logout(){ location.reload(); }
+
 // ------------------ DEMO DATA ------------------
 function generateDemo(){
   const rnd = (min,max)=> Math.random()*(max-min)+min;
@@ -97,18 +152,18 @@ function generateDemo(){
   const now = new Date('2026-01-16T12:00:00Z');
   const start = new Date(now.getTime()-29*24*3600*1000);
   const users=[
-    {id:'345345', name:'Anant Singh', email:'Anant.2.Singh@coforge.com', card:'Visa Platinum', country:'Germany'},
-    {id:'458812', name:'Anna Müller', email:'anna.mueller@example.eu', card:'Visa Gold', country:'Germany'},
-    {id:'572901', name:'Pierre Dubois', email:'pierre.dubois@example.eu', card:'Mastercard World', country:'France'},
-    {id:'663210', name:'Lucía García', email:'lucia.garcia@example.eu', card:'Visa Signature', country:'Spain'}
+    {id:'345345', name:'Anant Singh', email:'anant.singh@example.com', card:'World Elite', country:'UK'},
+    {id:'458812', name:'Anna Müller', email:'anna.mueller@example.eu', card:'Edge', country:'Germany'},
+    {id:'572901', name:'Pierre Dubois', email:'pierre.dubois@example.eu', card:'Edge', country:'France'},
+    {id:'663210', name:'Lucía García', email:'lucia.garcia@example.eu', card:'Edge', country:'Spain'}
   ];
   const merchants=[
     ['Virgin Australia','Airline',4511,'Travel & Lodging'],['Lufthansa','Airline',4511,'Travel & Lodging'],['Ryanair','Airline',4511,'Travel & Lodging'],
-    ['Booking.com','Travel',4722,'Travel & Lodging'],['IKEA','Retail',5712,'Retail'],['Lidl','Retail',5411,'Grocery'],['Vodafone DE','Telecom',4814,'Telecom & Internet'],['Starbucks','Retail',5814,'Restaurants & Cafés'],['Decathlon','Retail',5941,'Retail'],['Shell','Travel',5541,'Fuel']
+    ['Booking.com','Travel',4722,'Travel & Lodging'],['IKEA','Retail',5712,'Retail'],['Lidl','Retail',5411,'Grocery'],['Vodafone','Telecom',4814,'Telecom & Internet'],['Starbucks','Retail',5814,'Restaurants & Cafés'],['Decathlon','Retail',5941,'Retail'],['Shell','Travel',5541,'Fuel']
   ];
   const status=['SUCCESS','APPROVED','FAILED','SETTLED','COMPLETED'];
   const channel=['Card','SCT Inst','SEPA','SWIFT','SEPA DD'];
-  let seq=8000, rows=[];
+  let seq=9000, rows=[];
   for(const u of users){
     const n = Math.floor(rnd(6,9));
     for(let i=0;i<n;i++){
@@ -130,41 +185,48 @@ function generateDemo(){
         'Country': u.country,
         'Channel': pick(channel),
         'Reference': `REF-${seq}-${Math.floor(rnd(100,999))}`,
-        'IBAN (masked)': `DE${Math.floor(rnd(10,99))}****${Math.floor(rnd(1000,9999))}****${Math.floor(rnd(1000,9999))}`,
+        'IBAN (masked)': `GB${Math.floor(rnd(10,99))}****${Math.floor(rnd(1000,9999))}****${Math.floor(rnd(1000,9999))}`,
         'MCC': m[2],
         'Merchant Category Group': m[3]
       });
     }
   }
   const anant = rows.filter(r=>r['Customer ID']==='345345');
-  if(anant.length){
-    anant[0]['Merchant']='Virgin Australia'; anant[0]['Merchant type']='Airline'; anant[0]['MCC']=4511; anant[0]['Merchant Category Group']='Travel & Lodging';
-    if(anant[1]){ anant[1]['Merchant']='IKEA'; anant[1]['Merchant type']='Retail'; anant[1]['MCC']=5712; anant[1]['Merchant Category Group']='Retail'; }
-  }
+  if(anant.length){ anant[0]['Merchant']='Virgin Australia'; anant[0]['Merchant type']='Airline'; anant[0]['MCC']=4511; anant[0]['Merchant Category Group']='Travel & Lodging'; }
   return rows;
 }
 
-// ------------------ PARSE / NORMALIZE ------------------
+// ------------------ Parsing & Normalization ------------------
 function parseCSV(text){
   const lines = text.split(/\r?\n/).filter(l=>l.trim().length>0);
   if(lines.length===0) return [];
   const headers = lines[0].split(',').map(h=>h.trim().replace(/^"|"$/g,''));
   const rows=[];
   for(let i=1;i<lines.length;i++){
-    const parts = lines[i].match(/([^,\"]+|"[^"]*")+/g) || [];
+    // naive CSV split with quoted fields support
+    const parts = [];
+    let cur = '', q=false;const s=lines[i];
+    for(let c=0;c<s.length;c++){
+      const ch=s[c];
+      if(ch==='"'){ q=!q; continue; }
+      if(ch===',' && !q){ parts.push(cur); cur=''; }
+      else cur+=ch;
+    }
+    parts.push(cur);
     const obj={};
     headers.forEach((h,idx)=>{ let v=(parts[idx]||'').replace(/^"|"$/g,''); obj[h]=v; });
     rows.push(obj);
   }
   return rows;
 }
+
 function toDateStr(v){ if(!v) return ''; const s=String(v); if(/\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0,10); return s; }
 function normalize(records){
   return records.map(r=>{ const out={...r}; if(!out['Transaction Date']){ if(out['Timestamp']) out['Transaction Date']=toDateStr(out['Timestamp']); else if(out['Date']) out['Transaction Date']=toDateStr(out['Date']); } else out['Transaction Date']=toDateStr(out['Transaction Date']); ['Customer ID','Customer Name','Email','Merchant','Merchant type','Status','Card Type','Channel','Reference'].forEach(k=>{ if(out[k]!=null) out[k]=String(out[k]); }); if(out['Amount']!=null){ const n=Number(String(out['Amount']).replace(/[^0-9.\-]/g,'')); if(!Number.isNaN(n)) out['Amount']=n; } return out; });
 }
-const sum=(arr,sel)=>arr.reduce((a,b)=>a+(Number(sel(b))||0),0);
+function sum(arr,sel){ return arr.reduce((a,b)=>a+(Number(sel(b))||0),0); }
 
-// ------------------ UI STATE ------------------
+// ------------------ UI State ------------------
 let DATA=[]; let FILE_NAME='';
 const uploader = document.getElementById('uploader');
 const fileInput = document.getElementById('fileInput');
@@ -182,40 +244,40 @@ const kAmt = document.getElementById('kAmt');
 const kUsers = document.getElementById('kUsers');
 const fileName = document.getElementById('fileName');
 const rowsInfo = document.getElementById('rowsInfo');
-const changeBtn = document.getElementById('changeBtn');
 
 const q = document.getElementById('q');
 const d1 = document.getElementById('d1');
 const d2 = document.getElementById('d2');
 const applyBtn = document.getElementById('applyBtn');
 const clearBtn = document.getElementById('clearBtn');
+const changeBtn = document.getElementById('changeBtn');
 
-const PRIMARY_COLS=['Transaction Id','Card Type','Merchant','Merchant type','Amount','Status','Transaction Date','Customer ID','Customer Name','Email'];
+const PRIMARY_COLS = ['Transaction Id','Card Type','Merchant','Merchant type','Amount','Status','Transaction Date','Customer ID','Customer Name','Email'];
 let COLUMNS=[];
 
-function pickColumns(rows){ if(!rows.length) return []; const keys=Object.keys(rows[0]); const ordered=PRIMARY_COLS.filter(c=>keys.includes(c)); for(const k of keys){ if(!ordered.includes(k)) ordered.push(k); } return ordered; }
-function renderHeader(){ thead.innerHTML='<tr>'+COLUMNS.map(c=>`<th>${c}</th>`).join('')+'</tr>'; }
-function renderRows(rows){ const html=rows.map(r=>'<tr>'+COLUMNS.map(c=>{ let v=r[c]; if(c==='Transaction Date') v=toDateStr(v); if(c==='Amount'&&v!=null) v=`${Number(v).toFixed(2)} EUR`; return `<td>${v!=null?v:''}</td>`; }).join('')+'</tr>').join(''); tbody.innerHTML= html || '<tr><td colspan="'+COLUMNS.length+'" style="color:#556270;padding:20px">No rows match current filters.</td></tr>'; }
+function pickColumns(rows){ if(!rows.length) return []; const keys = Object.keys(rows[0]); const ordered = PRIMARY_COLS.filter(c=>keys.includes(c)); for(const k of keys){ if(!ordered.includes(k)) ordered.push(k); } return ordered; }
+function renderHeader(){ thead.innerHTML = '<tr>'+COLUMNS.map(c=>`<th>${c}</th>`).join('')+'</tr>'; }
+function renderRows(rows){ const html = rows.map(r=>{ return '<tr>'+COLUMNS.map(c=>{ let v = r[c]; if(c==='Transaction Date') v = toDateStr(v); if(c==='Amount' && v!=null) v = `${Number(v).toFixed(2)} EUR`; return `<td>${v!=null?v:''}</td>`; }).join('')+'</tr>'; }).join(''); tbody.innerHTML = html || '<tr><td colspan="'+COLUMNS.length+'" style="color:#556270;padding:20px">No rows match the current filters.</td></tr>'; }
 
-function applyFilters(){ const term=q.value.trim().toLowerCase(); const from=d1.value||null; const to=d2.value||null; let rows=DATA.slice(); if(term){ rows=rows.filter(r=> String(r['Customer ID']||'').toLowerCase().includes(term) || String(r['Customer Name']||'').toLowerCase().includes(term)); } if(from){ rows=rows.filter(r=> (r['Transaction Date']||'') >= from ); } if(to){ rows=rows.filter(r=> (r['Transaction Date']||'') <= to ); } rows.sort((a,b)=> String(b['Transaction Date']).localeCompare(String(a['Transaction Date'])) || (Number(b['Amount'])-Number(a['Amount'])) ); renderRows(rows); kTxn.textContent=rows.length; kMer.textContent=new Set(rows.map(r=>r['Merchant'])).size; kUsers.textContent=new Set(rows.map(r=>r['Customer ID'])).size; kAmt.textContent='€'+sum(rows,r=>r['Amount']).toFixed(2); rowsInfo.textContent=rows.length+' rows (filtered)'; }
+function applyFilters(){ const term=q.value.trim().toLowerCase(); const from=d1.value||null; const to=d2.value||null; let rows=DATA.slice(); if(term){ rows=rows.filter(r=> String(r['Customer ID']||'').toLowerCase().includes(term) || String(r['Customer Name']||'').toLowerCase().includes(term) ); } if(from){ rows=rows.filter(r=> (r['Transaction Date']||'') >= from ); } if(to){ rows=rows.filter(r=> (r['Transaction Date']||'') <= to ); } rows.sort((a,b)=> String(b['Transaction Date']).localeCompare(String(a['Transaction Date'])) || (Number(b['Amount'])-Number(a['Amount'])) ); renderRows(rows); kTxn.textContent = rows.length; kMer.textContent = new Set(rows.map(r=>r['Merchant'])).size; kUsers.textContent = new Set(rows.map(r=>r['Customer ID'])).size; kAmt.textContent = '€'+ sum(rows, (r)=>r['Amount']).toFixed(2); rowsInfo.textContent = rows.length+ ' rows (filtered)'; }
 
-function showDashboard(){ filters.style.display='grid'; kpiRow.style.display='flex'; metaRow.style.display='inline-block'; tableEl.style.display='table'; }
+function showDashboard(){ filters.style.display='grid'; kpiRow.style.display='flex'; metaRow.style.display='block'; tableEl.style.display='table'; }
 function hideUploader(){ uploader.style.display='none'; }
-function showUploader(){ uploader.style.display='grid'; filters.style.display='none'; kpiRow.style.display='none'; metaRow.style.display='none'; tableEl.style.display='none'; fileInput.value=''; processBtn.disabled=true; q.value=''; d1.value=''; d2.value=''; tbody.innerHTML=''; thead.innerHTML=''; }
+function showUploader(){ uploader.style.display='block'; filters.style.display='none'; kpiRow.style.display='none'; metaRow.style.display='none'; tableEl.style.display='none'; fileInput.value=''; processBtn.disabled=true; q.value=''; d1.value=''; d2.value=''; tbody.innerHTML=''; thead.innerHTML=''; }
 
-function loadRows(rows, source){ const norm=normalize(rows); DATA=norm; FILE_NAME=source||'data'; COLUMNS=pickColumns(norm); renderHeader(); fileName.textContent=FILE_NAME+' • '+norm.length+' records'; rowsInfo.textContent=norm.length+' rows'; hideUploader(); showDashboard(); applyFilters(); }
+function loadRows(rows, source){ const norm = normalize(rows); DATA = norm; FILE_NAME = source||'data'; COLUMNS = pickColumns(norm); renderHeader(); fileName.textContent = FILE_NAME + ' • ' + norm.length + ' records'; rowsInfo.textContent = norm.length + ' rows'; hideUploader(); showDashboard(); applyFilters(); }
 
-fileInput.addEventListener('change',(e)=>{ processBtn.disabled=!e.target.files[0]; });
-processBtn.addEventListener('click',()=>{ const f=fileInput.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=(ev)=>{ try{ const txt=ev.target.result||''; let rows=[]; if(/^\s*\[/.test(txt)||/^\s*\{/.test(txt)) rows=JSON.parse(txt); else rows=parseCSV(txt); loadRows(rows, f.name); }catch(err){ alert('Unable to read file.\n'+err.message); } }; reader.readAsText(f); });
+fileInput.addEventListener('change', (e)=>{ processBtn.disabled = !e.target.files[0]; });
+processBtn.addEventListener('click', ()=>{ const f = fileInput.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = (ev)=>{ try{ const txt = ev.target.result || ''; let rows = []; if(/^\s*\[/.test(txt) || /^\s*\{/.test(txt)) rows = JSON.parse(txt); else rows = parseCSV(txt); loadRows(rows, f.name); }catch(err){ alert('Unable to read file.\n'+err.message); } }; reader.readAsText(f); });
 
-demoBtn.addEventListener('click',()=>{ const rows=generateDemo(); loadRows(rows,'demo.json'); });
-changeBtn.addEventListener('click',showUploader);
+demoBtn.addEventListener('click', ()=>{ const rows = generateDemo(); loadRows(rows, 'sample_data.json'); });
+changeBtn.addEventListener('click', showUploader);
 
-applyBtn.addEventListener('click',applyFilters);
-clearBtn.addEventListener('click',()=>{ q.value=''; d1.value=''; d2.value=''; applyFilters(); });
-q.addEventListener('keydown',(e)=>{ if(e.key==='Enter') applyFilters(); });
-d1.addEventListener('change',applyFilters);
-d2.addEventListener('change',applyFilters);
+applyBtn.addEventListener('click', applyFilters);
+clearBtn.addEventListener('click', ()=>{ q.value=''; d1.value=''; d2.value=''; applyFilters(); });
+q.addEventListener('keydown', (e)=>{ if(e.key==='Enter') applyFilters(); });
+d1.addEventListener('change', applyFilters);
+d2.addEventListener('change', applyFilters);
 </script>
 </body>
 </html>
